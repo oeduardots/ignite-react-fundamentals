@@ -1,4 +1,4 @@
-import styles from './Post.module.css'
+import styles from './post.module.css'
 
 export function Post() {
   return (
@@ -11,8 +11,8 @@ export function Post() {
             alt=""
           />
           <div className={styles.authorInfo}>
-            <strong>Diego Fernandes</strong>
-            <span>Web Developer</span>
+            <strong>Eduardo Tavares</strong>
+            <span>Desenvolvedor Front-end</span>
           </div>
         </div>
 
@@ -28,10 +28,11 @@ export function Post() {
           no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀
         </p>
         <p>
-          👉<a href="">jane.design/doctorcare</a>
+          <a href="">jane.design/doctorcare</a>
         </p>
         <p>
-          <a href="">#novoprojeto #nlw #rocketseat</a>
+          <a href="">#novoprojeto</a> <a href="">#nlw</a>{' '}
+          <a href="">#rocketseat</a>
         </p>
       </div>
     </article>

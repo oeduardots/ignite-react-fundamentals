@@ -42,8 +42,13 @@ export function Post({ author, publishedAt, content }) {
     setNewCommentText(event?.target.value)
   }
 
-  function deleteComment(comment) {
-    console.log(`deletar comentário ${comment}`)
+  function deleteComment(commentToDelete) {
+    // imutabilidade -> as variáveis não sofrem mutação, não alteramos o valor na momória, nós criamos um novo valor (um novo espaço na memória)
+
+    const commentsWithoutDeletedOne = comments.filter((comment) => {
+      return comment !== commentToDelete
+    })
+    setComments(commentsWithoutDeletedOne)
   }
 
   return (

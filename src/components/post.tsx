@@ -7,7 +7,9 @@ import { Comment } from './comment'
 import styles from './post.module.css'
 
 export function Post({ author, publishedAt, content }) {
-  const [comments, setComments] = useState([1, 2])
+  const [comments, setComments] = useState(['Post muito bacana, hein?!'])
+
+  const [newCommentText, setNewCommentText] = useState('')
 
   const publishedDateFormatted = format(
     publishedAt,
@@ -25,8 +27,19 @@ export function Post({ author, publishedAt, content }) {
   function handleCrateNewComment() {
     event.preventDefault()
 
+    const newCommentText = event?.target.comment.value
     // imutabilidade
-    setComments([...comments, comments.length + 1])
+    setComments([...comments, newCommentText])
+
+    // programação imperativa
+    // event?.target.comment.value = ''
+
+    // programação declarativa
+    setNewCommentText('')
+  }
+
+  function handleNewCommentChange() {
+    setNewCommentText(event?.target.value)
   }
 
   return (
@@ -65,7 +78,13 @@ export function Post({ author, publishedAt, content }) {
       <form onSubmit={handleCrateNewComment} className={styles.commentForm}>
         <strong>Deixe seu feedback</strong>
 
-        <textarea placeholder="Deixe um comentário" />
+        <textarea
+          name="comment"
+          placeholder="Deixe um comentário"
+          onChange={handleNewCommentChange}
+          // programação declarativa
+          value={newCommentText}
+        />
 
         <footer>
           <button type="submit">Publicar</button>
@@ -74,7 +93,7 @@ export function Post({ author, publishedAt, content }) {
 
       <div className={styles.commentList}>
         {comments.map((comment) => {
-          return <Comment />
+          return <Comment content={comment} />
         })}
       </div>
     </article>

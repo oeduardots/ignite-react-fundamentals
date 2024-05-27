@@ -1,12 +1,29 @@
 import { format, formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale/pt-BR'
-import { useState } from 'react'
+import { ChangeEvent, FormEvent, InvalidEvent, useState } from 'react'
 
 import { Avatar } from './avatar'
 import { Comment } from './comment'
 import styles from './post.module.css'
 
-export function Post({ author, publishedAt, content }) {
+interface Author {
+  name: string
+  role: string
+  avatarUrl: string
+}
+
+interface Content {
+  type: 'paragraph' | 'link'
+  content: string
+}
+
+interface PostProps {
+  author: Author
+  publishedAt: Date
+  content: Content[]
+}
+
+export function Post({ author, publishedAt, content }: PostProps) {
   const [comments, setComments] = useState(['Post muito bacana, hein?!'])
 
   const [newCommentText, setNewCommentText] = useState('')
@@ -24,35 +41,27 @@ export function Post({ author, publishedAt, content }) {
     addSuffix: true,
   })
 
-  function handleCrateNewComment() {
+  function handleCrateNewComment(event: FormEvent) {
     event.preventDefault()
 
-    const newCommentText = event?.target.comment.value
-    // imutabilidade
     setComments([...comments, newCommentText])
-
-    // programação imperativa
-    // event?.target.comment.value = ''
-
-    // programação declarativa
     setNewCommentText('')
   }
 
-  function handleNewCommentChange() {
-    event?.target.setCustomValidity('')
-    setNewCommentText(event?.target.value)
+  function handleNewCommentChange(event: ChangeEvent<HTMLTextAreaElement>) {
+    event.target.setCustomValidity('')
+    setNewCommentText(event.target.value)
   }
 
-  function handleNewCommentInvalid() {
-    event?.target.setCustomValidity('Este campo é obrigatório')
+  function handleNewCommentInvalid(event: InvalidEvent<HTMLTextAreaElement>) {
+    event.target.setCustomValidity('Este campo é obrigatório')
   }
 
-  function deleteComment(commentToDelete) {
-    // imutabilidade -> as variáveis não sofrem mutação, não alteramos o valor na momória, nós criamos um novo valor (um novo espaço na memória)
-
+  function deleteComment(commentToDelete: string) {
     const commentsWithoutDeletedOne = comments.filter((comment) => {
       return comment !== commentToDelete
     })
+
     setComments(commentsWithoutDeletedOne)
   }
 
@@ -88,6 +97,8 @@ export function Post({ author, publishedAt, content }) {
               </p>
             )
           }
+
+          return null
         })}
       </div>
 
